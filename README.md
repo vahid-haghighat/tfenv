@@ -54,9 +54,15 @@ bash:
 ```console
 echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.bash_profile
 ```
+
 zsh:
 ```console
-$ echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.zprofile
+echo 'export PATH="$HOME/.tfenv/bin:$PATH"' >> ~/.zprofile
+```
+
+fish:
+```console
+echo 'set -x PATH $HOME/.tfenv/bin $PATH' >> ~/.config/fish/config.fish
 ```
 
 For WSL users:

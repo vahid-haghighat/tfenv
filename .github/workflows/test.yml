@@ -34,7 +34,7 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         with:
           install: true
-      - uses: 'docker/build-push-action@v5'
+      - uses: 'docker/build-push-action@v6'
         if: contains(matrix.os, 'ubuntu')
         with:
           context: .
@@ -54,11 +54,12 @@ jobs:
     strategy:
       matrix:
         os:
-          - 'macos-11'
-          - 'macos-10.15'
-          - 'ubuntu-20.04'
-          - 'ubuntu-18.04'
-          - 'windows-2019'
+          - 'ubuntu-24.04'
+          - 'ubuntu-22.04'
+          - 'macos-14'
+          - 'macos-13'
+          - 'windows-2025'
+          - 'windows-2022'
     steps:
       - uses: 'actions/checkout@v4'
         with:
@@ -73,7 +74,7 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         with:
           install: true
-      - uses: 'docker/build-push-action@v5'
+      - uses: 'docker/build-push-action@v6'
         if: contains(matrix.os, 'ubuntu')
         with:
           context: .
