@@ -99,8 +99,7 @@ If a parameter is passed, available options:
 - `x.y.z` [Semver 2.0.0](https://semver.org/) string specifying the exact version to install
 - `latest` is a syntax to install latest version
 - `latest:<regex>` is a syntax to install latest version matching regex (used by grep -e)
-- `latest-allowed` is a syntax to scan your Terraform files to detect which version is maximally allowed.
-- `latest-allowed-stable` is the same as `latest-allowed`, but only considers stable versions and not pre-releases.
+- `latest-allowed` is a syntax to scan your Terraform files to detect which version is maximally allowed. Only considers stable versions, not pre-releases.
 - `min-required` is a syntax to scan your Terraform files to detect which version is minimally required.
 
 See [required_version](https://developer.hashicorp.com/terraform/language/settings) docs. Also [see min-required & latest-allowed](#min-required) section below.
@@ -111,7 +110,6 @@ $ tfenv install 0.7.0
 $ tfenv install latest
 $ tfenv install latest:^0.8
 $ tfenv install latest-allowed
-$ tfenv install latest-allowed-stable
 $ tfenv install min-required
 ```
 
@@ -139,7 +137,7 @@ validation failure.
 If you use a [.terraform-version](#terraform-version-file) file, `tfenv install` (no argument) will install the version written in it.
 
 <a name="min-required"></a>
-#### min-required & latest-allowed & latest-allowed-stable
+#### min-required & latest-allowed
 
 Please note that we don't do semantic version range parsing but use first ever found version as the candidate for minimally required one. It is up to the user to keep the definition reasonable. I.e.
 

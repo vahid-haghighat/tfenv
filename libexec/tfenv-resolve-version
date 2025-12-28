@@ -127,7 +127,7 @@ if [[ "${version_requested}" =~ ^min-required$ ]]; then
   version_requested="${min_required}";
 fi;
 
-if [[ "${version_requested}" =~ ^latest-allowed(-stable)?$ ]]; then
+if [[ "${version_requested}" =~ ^latest-allowed$ ]]; then
   log 'debug' 'Detecting latest allowable version...';
   version_spec="$(grep -h required_version "${TFENV_DIR:-$(pwd)}"/{*.tf,*.tf.json} 2>/dev/null | { IFS='"' read -r _ ver _; echo "${ver%%,*}"; })";
   version_num="$(echo "${version_spec}" | sed -E 's/[^0-9.]+//')";
@@ -139,7 +139,7 @@ if [[ "${version_requested}" =~ ^latest-allowed(-stable)?$ ]]; then
       ;;
     '<='*)
       IFS='.-' read -r major minor patch pre_release <<< "${version_num}"
-      if [[ "${version_requested}" =~ latest-allowed-stable$ && -n "${pre_release}" ]]; then
+      if [[ -n "${pre_release}" ]]; then
         constraint_regex="^"
         if [[ "$major" != 0 ]]; then
           constraint_regex="^$(seq 0 $((major - 1)) | sed "s/[0-9]*/&\\\.[0-9]\\\+\\\.[0-9]\\\+\\\|/g" | tr -d '\n')"
@@ -160,7 +160,7 @@ if [[ "${version_requested}" =~ ^latest-allowed(-stable)?$ ]]; then
       version_without_rightmost="${version_num%.*}";
       if [[ "${version_without_rightmost}" == "${version_num}" ]]; then
         version_requested=latest
-      elif [[ "${version_requested}" =~ ^latest-allowed-stable$ ]]; then
+      else
         IFS='.' read -ra version_without_rightmost_parts <<< "${version_without_rightmost}"
         version_without_rightmost_count=${#version_without_rightmost_parts[@]}
         version_requested="latest:^${version_without_rightmost}"
@@ -168,8 +168,6 @@ if [[ "${version_requested}" =~ ^latest-allowed(-stable)?$ ]]; then
             version_requested+="\.[0-9]\+"
         done
         version_requested+="$"
-      else
-        version_requested="latest:^${version_without_rightmost}\."
       fi
       ;;
     *)

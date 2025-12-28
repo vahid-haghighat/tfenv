@@ -27,7 +27,7 @@ echo "terraform {
 cleanup || log 'error' 'Cleanup failed?!';
 
 
-log 'info' '### Install latest-allowed tagged version (#.#.#-tag#)'
+log 'info' '### Install latest-allowed tagged version (#.#.#-tag#) - should skip to stable'
 
 echo "terraform {
     required_version = \"<=0.13.0-rc1\"
@@ -36,8 +36,23 @@ echo "terraform {
 (
   tfenv install latest-allowed;
   tfenv use latest-allowed;
-  check_active_version 0.13.0-rc1;
-) || error_and_proceed 'Latest allowed tagged-version does not match. Requested: "<=0.13.0-rc1", Expected: 0.13.0-rc1';
+  check_active_version 0.12.31;
+) || error_and_proceed 'Latest allowed should skip pre-release. Requested: "<=0.13.0-rc1", Expected: 0.12.31 (stable)';
+
+cleanup || log 'error' 'Cleanup failed?!';
+
+
+log 'info' '### Install latest-allowed with alpha constraint - should skip to stable'
+
+echo "terraform {
+    required_version = \"<=1.1.0-alpha20211006\"
+}" > latest_allowed.tf;
+
+(
+  tfenv install latest-allowed;
+  tfenv use latest-allowed;
+  check_active_version 1.0.11;
+) || error_and_proceed 'Latest allowed should skip alpha versions. Requested: "<=1.1.0-alpha20211006", Expected: 1.0.11 (stable)';
 
 cleanup || log 'error' 'Cleanup failed?!';
 
